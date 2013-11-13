@@ -90,6 +90,17 @@
         };
     });
 
+    $.ajaxq.isRunning = function(qname) {
+        if (qname) return isQueueRunning(qname);
+        else return isAnyQueueRunning();
+    };
+
+    $.ajaxq.clear = function(qname) {
+        if (!qname) deleteAllQueues();
+        else deleteQueue(qname);
+    };
+
+
     var isQueueRunning = function(qname) {
         return queues.hasOwnProperty(qname);
     }
@@ -101,23 +112,12 @@
         return false;
     }
 
-    $.ajaxq.isRunning = function(qname) {
-        if (qname) return isQueueRunning(qname);
-        else return isAnyQueueRunning();
-    };
+    var deleteQueue = function(qname) {
+        delete queues[qname];
+    }
 
-    $.ajaxq.clear = function(qname) {
-        if (!qname) {
-            for (var i in queues) {
-                if (queues.hasOwnProperty(i)) {
-                    delete queues[i];
-                }
-            }
-        }
-        else {
-            if (queues[qname]) {
-                delete queues[qname];
-            }
-        }
-    };
+    var deleteAllQueues = function() {
+        for (var i in queues) deleteQueue(i);
+    }
+
 })(jQuery);
