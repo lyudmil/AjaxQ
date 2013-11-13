@@ -92,14 +92,13 @@
 
     $.ajaxq.isRunning = function(qname) {
         if (qname) return isQueueRunning(qname);
-        else return isAnyQueueRunning();
+        return isAnyQueueRunning();
     };
 
     $.ajaxq.clear = function(qname) {
         if (!qname) deleteAllQueues();
         else deleteQueue(qname);
     };
-
 
     var isQueueRunning = function(qname) {
         return queues.hasOwnProperty(qname);
@@ -117,7 +116,7 @@
     }
 
     var deleteAllQueues = function() {
-        for (var i in queues) deleteQueue(i);
+        queues = {};
     }
 
 })(jQuery);
